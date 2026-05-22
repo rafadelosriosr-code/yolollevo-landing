@@ -1,7 +1,48 @@
 {
+  "problema": {
+    "label": "El problema",
+    "titulo": "Ir al taller es una <em>pérdida de tiempo.</em>",
+    "subtitulo": "Entre trasladar el auto, esperar turno, conseguir transporte de vuelta y buscarlo más tarde, podés perder medio día. Y sin saber qué le están haciendo a tu vehículo.",
+    "puntos": [
+      {
+        "titulo": "Horas perdidas en traslados y esperas",
+        "desc": "Coordinás transporte de ida, esperás en el taller y después repetís el proceso para buscarlo."
+      },
+      {
+        "titulo": "Sin turnos claros ni seguimiento",
+        "desc": "Muchos talleres no informan el estado del trabajo hasta que llamás vos."
+      },
+      {
+        "titulo": "Tráfico, horarios y estrés innecesario",
+        "desc": "Todo en medio de tu jornada. Tiempo que podrías estar usando en algo más importante."
+      }
+    ]
+  },
+  "precio": {
+    "label_pequeno": "Servicio de logística automotriz",
+    "servicio": "Retiro y entrega de vehículo",
+    "monto": "250.000",
+    "moneda": "Gs",
+    "incluye": [
+      "Precio fijo",
+      "Inspección inicial",
+      "Inspección final",
+      "Seguimiento GPS",
+      "Sin costos ocultos"
+    ],
+    "cta": "Agendar →"
+  },
   "analytics": {
-    "ga_measurement_id": "",
-    "ga_activado": false
+    "ga_measurement_id": "G-9LY4CPG6MK",
+    "ga_activado": true
+  },
+  "cta_final": {
+    "eyebrow": "Empezá ahora",
+    "titulo_linea1": "Tu auto listo.",
+    "titulo_linea2": "Vos en tu lugar.",
+    "subtitulo": "Un mensaje y nos encargamos de todo. Sin esperas, sin traslados, sin complicaciones.",
+    "boton": "Agendar por WhatsApp",
+    "nota": "Respondemos en minutos · Lun–Sáb 8:00 – 18:00"
   },
   "contacto": {
     "whatsapp_numero": "595982086676",
@@ -10,6 +51,49 @@
     "mensaje_general": "Hola, tengo una consulta sobre Yo Lo Llevo",
     "horario": "Lun–Sáb 8:00 – 18:00"
   },
+  "faq": [
+    {
+      "pregunta": "¿Qué talleres utilizan?",
+      "respuesta": "Trabajamos con talleres evaluados previamente. Al coordinar tu servicio te informamos qué taller se encargará y podés aprobarlo antes de confirmar."
+    },
+    {
+      "pregunta": "¿Qué pasa si el presupuesto final cambia?",
+      "respuesta": "Si durante el servicio el taller detecta algo adicional, te avisamos antes de proceder. Nunca se realizan trabajos extras sin tu aprobación previa por WhatsApp."
+    },
+    {
+      "pregunta": "¿Qué incluye la inspección inicial?",
+      "respuesta": "Documentamos el estado exterior del vehículo con fotos de todos los ángulos, nivel de combustible, estado de los vidrios y cualquier detalle visible. Todo te llega por WhatsApp antes de salir de tu domicilio."
+    },
+    {
+      "pregunta": "¿Cómo funciona el seguimiento en tiempo real?",
+      "respuesta": "Una vez que el chofer retira el vehículo, compartimos la ubicación en tiempo real por WhatsApp. Podés ver el recorrido hasta que el auto llega al taller."
+    },
+    {
+      "pregunta": "¿Puedo reprogramar el turno?",
+      "respuesta": "Sí, podés reprogramar hasta 2 horas antes del turno acordado, sin costo. Solo avisás por WhatsApp y buscamos el próximo horario disponible."
+    },
+    {
+      "pregunta": "¿Qué pasa si llueve el día del retiro?",
+      "respuesta": "El servicio funciona con cualquier clima. Si preferís reprogramar por condiciones extremas, lo hacemos sin costo adicional y sin complicaciones."
+    }
+  ],
+  "testimonios": [
+    {
+      "quote": "Me ahorraron medio día de trabajo. Enviaron fotos al retirar y al entregar. Impecable.",
+      "nombre": "Martín R.",
+      "rol": "Ejecutivo comercial"
+    },
+    {
+      "quote": "El seguimiento por WhatsApp me dio mucha tranquilidad. Supe en todo momento dónde estaba mi camioneta.",
+      "nombre": "Sandra L.",
+      "rol": "Contadora independiente"
+    },
+    {
+      "quote": "El chofer súper profesional y puntual. El auto volvió listo y con todo en orden. Lo recomiendo sin dudas.",
+      "nombre": "Diego P.",
+      "rol": "Médico"
+    }
+  ],
   "hero": {
     "eyebrow": "Servicio automotriz premium · Asunción",
     "titulo_linea1": "Tu auto al taller.",
@@ -18,50 +102,23 @@
     "cta_principal": "Agendar por WhatsApp",
     "cta_secundario": "Ver cómo funciona",
     "stats": [
-      { "valor": "6", "label": "Pasos simples" },
-      { "valor": "100%", "label": "Por WhatsApp" },
-      { "valor": "250.000", "label": "Precio fijo · Gs" },
-      { "valor": "0", "label": "Esperas para vos" }
+      {
+        "valor": "6",
+        "label": "Pasos simples"
+      },
+      {
+        "valor": "100%",
+        "label": "Por WhatsApp"
+      },
+      {
+        "valor": "250.000",
+        "label": "Precio fijo · Gs"
+      },
+      {
+        "valor": "0",
+        "label": "Esperas para vos"
+      }
     ]
-  },
-  "problema": {
-    "label": "El problema",
-    "titulo": "Ir al taller es una <em>pérdida de tiempo.</em>",
-    "subtitulo": "Entre trasladar el auto, esperar turno, conseguir transporte de vuelta y buscarlo más tarde, podés perder medio día. Y sin saber qué le están haciendo a tu vehículo.",
-    "puntos": [
-      { "titulo": "Horas perdidas en traslados y esperas", "desc": "Coordinás transporte de ida, esperás en el taller y después repetís el proceso para buscarlo." },
-      { "titulo": "Sin turnos claros ni seguimiento", "desc": "Muchos talleres no informan el estado del trabajo hasta que llamás vos." },
-      { "titulo": "Tráfico, horarios y estrés innecesario", "desc": "Todo en medio de tu jornada. Tiempo que podrías estar usando en algo más importante." }
-    ]
-  },
-  "precio": {
-    "label_pequeno": "Servicio de logística automotriz",
-    "servicio": "Retiro y entrega de vehículo",
-    "monto": "250.000",
-    "moneda": "Gs",
-    "incluye": ["Precio fijo", "Inspección inicial", "Inspección final", "Seguimiento GPS", "Sin costos ocultos"],
-    "cta": "Agendar →"
-  },
-  "testimonios": [
-    { "quote": "Me ahorraron medio día de trabajo. Enviaron fotos al retirar y al entregar. Impecable.", "nombre": "Martín R.", "rol": "Ejecutivo comercial" },
-    { "quote": "El seguimiento por WhatsApp me dio mucha tranquilidad. Supe en todo momento dónde estaba mi camioneta.", "nombre": "Sandra L.", "rol": "Contadora independiente" },
-    { "quote": "El chofer súper profesional y puntual. El auto volvió listo y con todo en orden. Lo recomiendo sin dudas.", "nombre": "Diego P.", "rol": "Médico" }
-  ],
-  "faq": [
-    { "pregunta": "¿Qué talleres utilizan?", "respuesta": "Trabajamos con talleres evaluados previamente. Al coordinar tu servicio te informamos qué taller se encargará y podés aprobarlo antes de confirmar." },
-    { "pregunta": "¿Qué pasa si el presupuesto final cambia?", "respuesta": "Si durante el servicio el taller detecta algo adicional, te avisamos antes de proceder. Nunca se realizan trabajos extras sin tu aprobación previa por WhatsApp." },
-    { "pregunta": "¿Qué incluye la inspección inicial?", "respuesta": "Documentamos el estado exterior del vehículo con fotos de todos los ángulos, nivel de combustible, estado de los vidrios y cualquier detalle visible. Todo te llega por WhatsApp antes de salir de tu domicilio." },
-    { "pregunta": "¿Cómo funciona el seguimiento en tiempo real?", "respuesta": "Una vez que el chofer retira el vehículo, compartimos la ubicación en tiempo real por WhatsApp. Podés ver el recorrido hasta que el auto llega al taller." },
-    { "pregunta": "¿Puedo reprogramar el turno?", "respuesta": "Sí, podés reprogramar hasta 2 horas antes del turno acordado, sin costo. Solo avisás por WhatsApp y buscamos el próximo horario disponible." },
-    { "pregunta": "¿Qué pasa si llueve el día del retiro?", "respuesta": "El servicio funciona con cualquier clima. Si preferís reprogramar por condiciones extremas, lo hacemos sin costo adicional y sin complicaciones." }
-  ],
-  "cta_final": {
-    "eyebrow": "Empezá ahora",
-    "titulo_linea1": "Tu auto listo.",
-    "titulo_linea2": "Vos en tu lugar.",
-    "subtitulo": "Un mensaje y nos encargamos de todo. Sin esperas, sin traslados, sin complicaciones.",
-    "boton": "Agendar por WhatsApp",
-    "nota": "Respondemos en minutos · Lun–Sáb 8:00 – 18:00"
   },
   "footer": {
     "descripcion": "Servicio de retiro y entrega de vehículos con coordinación completa del taller. Tu auto listo, sin que te muevas.",
