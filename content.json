@@ -1,0 +1,129 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# Para edición local (npx decap-server) descomentá esto:
+# local_backend: true
+
+media_folder: "images"
+public_folder: "/images"
+
+# Edita un solo archivo: content.json
+collections:
+  - name: "config"
+    label: "Configuración de la Landing"
+    files:
+      - file: "content.json"
+        label: "Contenido del sitio"
+        name: "contenido"
+        format: "json"
+        fields:
+
+          # ── ANALYTICS ──
+          - label: "📊 Google Analytics"
+            name: "analytics"
+            widget: "object"
+            fields:
+              - { label: "Measurement ID de GA4 (ej: G-XXXXXXXXXX)", name: "ga_measurement_id", widget: "string", required: false, hint: "Lo obtenés en analytics.google.com → Admin → Data Streams. Si está vacío o el switch está apagado, no se cargará Google Analytics." }
+              - { label: "Activar Google Analytics", name: "ga_activado", widget: "boolean", default: false, hint: "Apagá esto para desactivar el tracking sin borrar el ID." }
+
+          # ── CONTACTO ──
+          - label: "📞 Contacto y WhatsApp"
+            name: "contacto"
+            widget: "object"
+            fields:
+              - { label: "Número WhatsApp (sin + ni espacios, ej: 595982086676)", name: "whatsapp_numero", widget: "string" }
+              - { label: "Mensaje pre-llenado - botón Hero/Nav/CTA Final", name: "mensaje_hero", widget: "string" }
+              - { label: "Mensaje pre-llenado - botón Precios", name: "mensaje_precios", widget: "string" }
+              - { label: "Mensaje pre-llenado - botón Footer / Flotante", name: "mensaje_general", widget: "string" }
+              - { label: "Horario de atención", name: "horario", widget: "string" }
+
+          # ── HERO ──
+          - label: "🎯 Sección Hero (encabezado)"
+            name: "hero"
+            widget: "object"
+            fields:
+              - { label: "Eyebrow (texto pequeño superior)", name: "eyebrow", widget: "string" }
+              - { label: "Título - Línea 1", name: "titulo_linea1", widget: "string" }
+              - { label: "Título - Línea 2 (cursiva)", name: "titulo_linea2", widget: "string" }
+              - { label: "Subtítulo", name: "subtitulo", widget: "text" }
+              - { label: "Texto botón principal", name: "cta_principal", widget: "string" }
+              - { label: "Texto botón secundario", name: "cta_secundario", widget: "string" }
+              - label: "Estadísticas (4 stats)"
+                name: "stats"
+                widget: "list"
+                max: 4
+                min: 4
+                fields:
+                  - { label: "Valor (ej: '6', '100%', '250.000')", name: "valor", widget: "string" }
+                  - { label: "Etiqueta", name: "label", widget: "string" }
+
+          # ── PROBLEMA ──
+          - label: "❗ Sección Problema"
+            name: "problema"
+            widget: "object"
+            fields:
+              - { label: "Label de sección", name: "label", widget: "string" }
+              - { label: "Título (admite HTML: <em>texto</em> para cursiva)", name: "titulo", widget: "string" }
+              - { label: "Subtítulo", name: "subtitulo", widget: "text" }
+              - label: "Puntos de dolor (lista)"
+                name: "puntos"
+                widget: "list"
+                fields:
+                  - { label: "Título del punto", name: "titulo", widget: "string" }
+                  - { label: "Descripción", name: "desc", widget: "text" }
+
+          # ── PRECIO ──
+          - label: "💰 Sección Precio"
+            name: "precio"
+            widget: "object"
+            fields:
+              - { label: "Label pequeño (encima del servicio)", name: "label_pequeno", widget: "string" }
+              - { label: "Nombre del servicio", name: "servicio", widget: "string" }
+              - { label: "Monto (ej: '250.000')", name: "monto", widget: "string" }
+              - { label: "Moneda (ej: 'Gs')", name: "moneda", widget: "string" }
+              - label: "Qué incluye (lista)"
+                name: "incluye"
+                widget: "list"
+                field: { label: "Item", name: "item", widget: "string" }
+              - { label: "Texto botón CTA", name: "cta", widget: "string" }
+
+          # ── TESTIMONIOS ──
+          - label: "⭐ Testimonios"
+            name: "testimonios"
+            widget: "list"
+            fields:
+              - { label: "Cita / Quote", name: "quote", widget: "text" }
+              - { label: "Nombre del cliente", name: "nombre", widget: "string" }
+              - { label: "Rol / Profesión", name: "rol", widget: "string" }
+
+          # ── FAQ ──
+          - label: "❓ Preguntas Frecuentes (FAQ)"
+            name: "faq"
+            widget: "list"
+            fields:
+              - { label: "Pregunta", name: "pregunta", widget: "string" }
+              - { label: "Respuesta", name: "respuesta", widget: "text" }
+
+          # ── CTA FINAL ──
+          - label: "🚀 Sección CTA Final"
+            name: "cta_final"
+            widget: "object"
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - { label: "Título - Línea 1", name: "titulo_linea1", widget: "string" }
+              - { label: "Título - Línea 2 (cursiva)", name: "titulo_linea2", widget: "string" }
+              - { label: "Subtítulo", name: "subtitulo", widget: "text" }
+              - { label: "Texto del botón", name: "boton", widget: "string" }
+              - { label: "Nota debajo del botón", name: "nota", widget: "string" }
+
+          # ── FOOTER ──
+          - label: "📄 Footer"
+            name: "footer"
+            widget: "object"
+            fields:
+              - { label: "Descripción", name: "descripcion", widget: "text" }
+              - { label: "Ciudad", name: "ciudad", widget: "string" }
+              - { label: "URL Instagram", name: "instagram_url", widget: "string", required: false }
+              - { label: "URL Facebook", name: "facebook_url", widget: "string", required: false }
+              - { label: "Copyright", name: "copyright", widget: "string" }
