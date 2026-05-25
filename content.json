@@ -46,9 +46,9 @@
   },
   "logo": {
     "imagen_nav": "/images/yolollevo-transparent-blanco-sinslogan-800-recortado.png",
-    "alto_nav_px": 25,
+    "alto_nav_px": 20,
     "imagen_footer": "/images/yolollevo-transparent-blanco-sinslogan-800-recortado.png",
-    "alto_footer_px": 30
+    "alto_footer_px": 25
   },
   "contacto": {
     "whatsapp_numero": "595982086676",
