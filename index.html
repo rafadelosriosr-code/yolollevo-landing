@@ -1,0 +1,1716 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>YoLoLlevo — Servicios Automotrices</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --black:   #080808;
+  --white:   #ffffff;
+  --navy:    #0f1b35;
+  --blue:    #1a5cbf;
+  --light:   #4a9eff;
+  --silver:  #c8d0dc;
+  --mist:    #f5f6f8;
+  --dim:     #6b7a90;
+  --green:   #25d366;
+  --border:  rgba(255,255,255,0.08);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;font-size:16px;}
+
+body{
+  font-family:'Instrument Sans',sans-serif;
+  background:var(--black);
+  color:var(--white);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── CURSOR custom ── */
+*, *::before, *::after { cursor: none !important; }
+@media(hover:none){ *, *::before, *::after { cursor: auto !important; } #cursor{display:none;} }
+#cursor {
+  position:fixed;width:8px;height:8px;border-radius:50%;
+  background:var(--white);pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:width .15s,height .15s,background .15s;
+}
+body:has(a:hover) #cursor,body:has(button:hover) #cursor {
+  width:12px;height:12px;background:var(--light);
+}
+
+/* ── NAV ── */
+nav {
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:24px 0;
+  transition:background .4s,padding .4s,border-color .4s;
+  border-bottom:1px solid transparent;
+}
+nav.scrolled {
+  background:rgba(8,8,8,0.85);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  padding:16px 0;
+  border-bottom-color:var(--border);
+}
+.nav-inner {
+  max-width:1200px;margin:0 auto;padding:0 48px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.nav-logo {
+  display:flex;align-items:center;gap:10px;
+  text-decoration:none;
+}
+.nav-wordmark {
+  font-family:'Syne',sans-serif;
+  font-size:22px;font-weight:500;letter-spacing:2px;
+  color:var(--white);
+}
+.nav-bar {
+  width:1px;height:18px;
+  background:rgba(255,255,255,0.2);
+  flex-shrink:0;
+}
+.nav-wordmark em{color:var(--light);font-style:normal;}
+.nav-wordmark img{display:block;height:32px;width:auto;}
+.footer-wordmark img{display:block;height:48px;width:auto;}
+.nav-links {
+  display:flex;gap:36px;
+}
+.nav-links a {
+  font-size:13px;font-weight:400;letter-spacing:.5px;
+  color:rgba(255,255,255,0.5);text-decoration:none;
+  transition:color .2s;
+}
+.nav-links a:hover{color:var(--white);}
+.nav-cta {
+  font-size:13px;font-weight:500;letter-spacing:.5px;
+  color:var(--white);text-decoration:none;
+  padding:10px 24px;
+  border:1px solid rgba(255,255,255,0.2);
+  border-radius:100px;
+  transition:background .2s,border-color .2s;
+  display:flex;align-items:center;gap:8px;
+}
+.nav-cta:hover{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.4);}
+
+/* ── SECTION BASE ── */
+section { position:relative; }
+.container { max-width:1200px;margin:0 auto;padding:0 48px; }
+
+/* ── HERO ── */
+#hero {
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;
+  overflow:hidden;
+  padding:120px 48px 80px;
+}
+
+/* Ambient glow */
+.hero-glow {
+  position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 60%, rgba(26,92,191,0.12) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 30% at 30% 30%, rgba(74,158,255,0.05) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 30% at 70% 70%, rgba(74,158,255,0.05) 0%, transparent 55%);
+}
+
+/* Grain overlay */
+.hero-grain {
+  position:absolute;inset:0;pointer-events:none;opacity:.35;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E");
+  background-size:200px;
+}
+
+.hero-eyebrow {
+  font-family:'Instrument Sans',sans-serif;
+  font-size:11px;font-weight:400;letter-spacing:4px;text-transform:uppercase;
+  color:var(--light);
+  margin-bottom:32px;
+  -webkit-animation:fadeIn .8s .2s ease both;animation:fadeIn .8s .2s ease both;
+}
+
+.hero-title {
+  font-family:'Syne',sans-serif;
+  font-size:clamp(56px,8vw,110px);
+  font-weight:300;
+  line-height:1.0;
+  letter-spacing:-1px;
+  color:var(--white);
+  margin-bottom:28px;
+  -webkit-animation:fadeIn .9s .4s ease both;animation:fadeIn .9s .4s ease both;
+}
+.hero-title em {
+  font-style:italic;
+  color:var(--silver);
+}
+.hero-title .highlight {
+  position:relative;display:inline-block;
+  color:var(--light);font-style:normal;
+}
+
+.hero-sub {
+  font-size:17px;font-weight:300;line-height:1.7;
+  color:rgba(255,255,255,0.45);
+  max-width:520px;margin:0 auto 48px;
+  -webkit-animation:fadeIn .9s .6s ease both;animation:fadeIn .9s .6s ease both;
+}
+
+.hero-actions {
+  display:flex;align-items:center;gap:20px;justify-content:center;
+  -webkit-animation:fadeIn .9s .8s ease both;animation:fadeIn .9s .8s ease both;
+  margin-bottom:80px;
+}
+
+.btn-primary {
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--white);color:var(--black);
+  font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:500;letter-spacing:.3px;
+  padding:14px 32px;border-radius:100px;
+  text-decoration:none;
+  transition:transform .25s,box-shadow .25s;
+  box-shadow:0 2px 24px rgba(255,255,255,0.1);
+}
+.btn-primary:hover{transform:scale(1.02);box-shadow:0 4px 32px rgba(255,255,255,0.15);}
+
+.btn-ghost {
+  display:inline-flex;align-items:center;gap:8px;
+  color:rgba(255,255,255,0.5);
+  font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:400;
+  text-decoration:none;
+  transition:color .2s;
+}
+.btn-ghost:hover{color:var(--white);}
+.btn-ghost .arrow{transition:transform .2s;}
+.btn-ghost:hover .arrow{transform:translateX(4px);}
+
+/* Hero stats bar */
+.hero-stats {
+  display:flex;align-items:center;justify-content:center;gap:0;
+  border:1px solid var(--border);
+  border-radius:100px;
+  padding:0;overflow:hidden;
+  -webkit-animation:fadeIn .9s 1s ease both;animation:fadeIn .9s 1s ease both;
+  width:fit-content;margin:0 auto;
+}
+.hero-stat {
+  padding:16px 36px;
+  text-align:center;
+  border-right:1px solid var(--border);
+}
+.hero-stat:last-child{border-right:none;}
+.hero-stat-val {
+  font-family:'Syne',sans-serif;
+  font-size:28px;font-weight:300;
+  color:var(--white);line-height:1;margin-bottom:4px;
+}
+.hero-stat-label {
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(255,255,255,0.3);font-weight:400;
+}
+
+/* ── PROBLEMA ── */
+#problema {
+  padding:160px 0;
+  background:var(--black);
+}
+.problema-inner {
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:120px;align-items:center;
+}
+.section-label {
+  font-size:10px;letter-spacing:4px;text-transform:uppercase;
+  color:var(--light);font-weight:400;
+  margin-bottom:24px;display:block;
+}
+.section-title {
+  font-family:'Syne',sans-serif;
+  font-size:clamp(40px,4.5vw,64px);
+  font-weight:300;line-height:1.1;
+  color:var(--white);
+  margin-bottom:24px;
+}
+.section-title em{font-style:italic;color:var(--silver);}
+.section-body {
+  font-size:16px;font-weight:300;line-height:1.8;
+  color:rgba(255,255,255,0.45);
+}
+
+.pain-list {
+  display:flex;flex-direction:column;gap:0;
+  border-top:1px solid var(--border);
+}
+.pain-item {
+  padding:28px 0;
+  border-bottom:1px solid var(--border);
+  display:grid;grid-template-columns:40px 1fr;
+  gap:20px;align-items:start;
+  transition:background .2s;
+}
+.pain-num {
+  font-family:'Syne',sans-serif;
+  font-size:13px;font-weight:300;
+  color:rgba(255,255,255,0.2);
+  padding-top:2px;
+}
+.pain-title {
+  font-size:15px;font-weight:500;color:var(--white);
+  margin-bottom:6px;
+}
+.pain-desc {
+  font-size:13px;font-weight:300;color:rgba(255,255,255,0.4);line-height:1.6;
+}
+
+/* ── SOLUCIÓN ── */
+#solucion {
+  padding:160px 0;
+  background:#0a0a0a;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+}
+.solucion-header {
+  text-align:center;margin-bottom:80px;
+}
+.solucion-header .section-title{margin-bottom:16px;}
+.solucion-header .section-body{max-width:480px;margin:0 auto;}
+
+.bullets-grid {
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;
+  background:var(--border);
+  border:1px solid var(--border);
+  border-radius:16px;overflow:hidden;
+  margin-bottom:60px;
+}
+.bullet-card {
+  background:#0a0a0a;
+  padding:36px 32px;
+  transition:background .25s;
+}
+.bullet-card:hover{background:#111;}
+.bullet-num {
+  font-family:'Syne',sans-serif;
+  font-size:40px;font-weight:300;
+  color:rgba(255,255,255,0.06);
+  line-height:1;margin-bottom:16px;
+}
+.bullet-title {
+  font-size:15px;font-weight:500;color:var(--white);
+  margin-bottom:8px;
+}
+.bullet-desc {
+  font-size:13px;font-weight:300;color:rgba(255,255,255,0.4);line-height:1.6;
+}
+
+/* Precio */
+.precio-block {
+  max-width:640px;margin:0 auto;
+  border:1px solid var(--border);
+  border-radius:16px;overflow:hidden;
+}
+.precio-top {
+  padding:40px 48px;
+  background:linear-gradient(135deg,rgba(26,92,191,0.15) 0%,rgba(74,158,255,0.05) 100%);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;gap:24px;
+}
+.precio-label-sm {
+  font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--light);margin-bottom:8px;
+}
+.precio-service {
+  font-family:'Syne',sans-serif;
+  font-size:26px;font-weight:300;color:var(--white);
+}
+.precio-amount-lg {
+  font-family:'Syne',sans-serif;
+  font-size:52px;font-weight:300;color:var(--white);
+  white-space:nowrap;letter-spacing:-1px;
+}
+.precio-amount-lg span{font-size:18px;color:var(--dim);letter-spacing:0;}
+.precio-bottom {
+  padding:20px 48px;
+  display:flex;align-items:center;gap:32px;
+}
+.precio-includes {
+  display:flex;gap:24px;flex-wrap:wrap;
+}
+.precio-include-item {
+  font-size:12px;color:rgba(255,255,255,0.4);
+  display:flex;align-items:center;gap:6px;
+}
+.precio-include-item::before{
+  content:'';width:4px;height:4px;border-radius:50%;
+  background:var(--light);flex-shrink:0;
+}
+.precio-cta {
+  margin-left:auto;
+  font-size:13px;font-weight:500;
+  color:var(--white);text-decoration:none;
+  padding:12px 28px;
+  border:1px solid rgba(255,255,255,0.2);
+  border-radius:100px;
+  display:flex;align-items:center;gap:8px;white-space:nowrap;
+  transition:background .2s,border-color .2s;
+}
+.precio-cta:hover{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.4);}
+
+/* ── TIMELINE ── */
+#como {
+  padding:160px 0;
+  background:var(--black);
+  overflow:hidden;
+}
+.como-header{text-align:center;margin-bottom:100px;}
+.como-header .section-title{margin-bottom:16px;}
+.como-header .section-body{max-width:420px;margin:0 auto;}
+
+/* Horizontal scrolling track */
+.tl-track-wrap {
+  position:relative;
+}
+.tl-track-wrap::before {
+  content:'';
+  position:absolute;
+  top:52px;left:0;right:0;
+  height:1px;
+  background:linear-gradient(90deg,
+    transparent 0%,
+    rgba(74,158,255,0.2) 8%,
+    rgba(74,158,255,0.2) 92%,
+    transparent 100%
+  );
+  z-index:0;
+}
+
+.timeline {
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:0;
+  position:relative;
+  z-index:1;
+}
+
+.tl-item {
+  display:flex;flex-direction:column;
+  align-items:center;
+  text-align:center;
+  padding:0 16px;
+  position:relative;
+}
+
+/* Node circle on the line */
+.tl-node {
+  width:44px;height:44px;
+  border-radius:50%;
+  background:var(--black);
+  border:1px solid rgba(74,158,255,0.3);
+  display:flex;align-items:center;justify-content:center;
+  color:rgba(255,255,255,0.5);
+  margin-bottom:28px;
+  position:relative;z-index:2;
+  transition:border-color .3s,background .3s,box-shadow .3s,color .3s;
+  flex-shrink:0;
+}
+.tl-item:hover .tl-node {
+  border-color:var(--light);
+  background:rgba(74,158,255,0.08);
+  box-shadow:0 0 24px rgba(74,158,255,0.18);
+  color:var(--light);
+}
+
+/* Arrow connector between nodes */
+.tl-item:not(:last-child)::after {
+  content:'';
+  position:absolute;
+  top:19px;
+  left:calc(50% + 20px);
+  right:calc(-50% + 20px);
+  height:1px;
+  background:rgba(74,158,255,0.15);
+  z-index:1;
+}
+
+/* Arrowhead SVG-like using clip */
+.tl-item:not(:last-child)::before {
+  content:'›';
+  position:absolute;
+  top:10px;
+  right:calc(-50% + 14px);
+  font-size:20px;
+  color:rgba(74,158,255,0.3);
+  z-index:3;
+  line-height:1;
+}
+
+.tl-step-num {
+  font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;
+  color:var(--light);margin-bottom:8px;opacity:.7;
+}
+.tl-title {
+  font-family:'Syne',sans-serif;
+  font-size:13px;font-weight:600;
+  color:var(--white);margin-bottom:8px;line-height:1.3;
+}
+.tl-desc {
+  font-size:12px;font-weight:300;color:rgba(255,255,255,0.35);
+  line-height:1.6;list-style:none;
+}
+.tl-desc li{margin-bottom:2px;}
+
+/* Active step highlight on hover */
+.tl-item:hover .tl-title { color:var(--light); }
+
+/* Bottom expanded detail — appears on hover */
+.tl-detail {
+  max-height:0;overflow:hidden;
+  transition:max-height .4s cubic-bezier(.16,1,.3,1),opacity .3s;
+  opacity:0;
+  margin-top:0;
+}
+.tl-item:hover .tl-detail {
+  max-height:120px;opacity:1;margin-top:8px;
+}
+.tl-detail-inner {
+  background:rgba(74,158,255,0.05);
+  border:1px solid rgba(74,158,255,0.12);
+  border-radius:10px;
+  padding:12px;
+  font-size:11px;color:rgba(255,255,255,0.4);line-height:1.6;
+  text-align:left;
+}
+
+/* ── BENEFICIOS ── */
+#beneficios {
+  padding:160px 0;
+  background:#050810;
+  border-top:1px solid var(--border);
+}
+.bene-header {
+  text-align:center;
+  margin-bottom:72px;
+}
+.bene-header .section-title{margin-bottom:12px;}
+.bene-header .section-body{max-width:420px;margin:0 auto;}
+
+/* Large feature grid — 2 big + 4 small */
+.bene-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:auto auto;
+  gap:1px;
+  background:var(--border);
+  border:1px solid var(--border);
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.bene-card {
+  background:#050810;
+  padding:48px;
+  transition:background .3s;
+  position:relative;
+  overflow:hidden;
+}
+.bene-card:hover{background:#080c16;}
+
+/* Subtle radial glow on hover */
+.bene-card::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background:radial-gradient(ellipse 60% 60% at 50% 50%, rgba(74,158,255,0.05) 0%, transparent 70%);
+  opacity:0;
+  transition:opacity .4s;
+}
+.bene-card:hover::before{opacity:1;}
+
+/* Large number watermark */
+.bene-bg-num {
+  position:absolute;
+  bottom:-20px;right:20px;
+  font-family:'Syne',sans-serif;
+  font-size:120px;font-weight:800;
+  color:rgba(255,255,255,0.025);
+  line-height:1;
+  pointer-events:none;
+  transition:color .3s;
+}
+.bene-card:hover .bene-bg-num{color:rgba(74,158,255,0.04);}
+
+.bene-icon {
+  display:block;
+  margin-bottom:24px;
+  line-height:0;
+}
+.bene-title {
+  font-family:'Syne',sans-serif;
+  font-size:22px;font-weight:700;
+  color:var(--white);margin-bottom:10px;line-height:1.2;
+}
+.bene-desc {
+  font-size:14px;font-weight:300;color:rgba(255,255,255,0.4);line-height:1.7;
+  max-width:340px;
+}
+
+/* Featured card spans full width on row 1 */
+.bene-card.featured {
+  grid-column:1 / -1;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:64px;
+  align-items:center;
+  padding:64px;
+  background:linear-gradient(135deg,#080c16 0%,#0a1228 100%);
+}
+.bene-card.featured .bene-title{font-size:32px;}
+.bene-card.featured .bene-desc{font-size:15px;max-width:none;}
+.bene-card.featured .bene-visual {
+  display:flex;flex-direction:column;gap:12px;
+}
+.bene-stat-row {
+  display:flex;align-items:center;gap:16px;
+  padding:16px 20px;
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--border);
+  border-radius:10px;
+}
+.bene-stat-val {
+  font-family:'Syne',sans-serif;
+  font-size:28px;font-weight:700;color:var(--light);
+  min-width:80px;
+}
+.bene-stat-label {
+  font-size:13px;color:rgba(255,255,255,0.4);
+}
+
+/* Small cards row */
+.bene-card.small {
+  padding:36px;
+}
+.bene-card.small .bene-title{font-size:16px;}
+.bene-card.small .bene-icon{margin-bottom:16px;}
+
+/* ── TESTIMONIOS ── */
+#testimonios {
+  padding:160px 0;
+  background:var(--black);
+}
+.test-header{text-align:center;margin-bottom:72px;}
+.test-header .section-title{margin-bottom:0;}
+
+.test-grid {
+  display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
+}
+.test-card {
+  border:1px solid var(--border);
+  border-radius:16px;padding:36px;
+  transition:border-color .25s,background .25s;
+}
+.test-card:hover{border-color:rgba(255,255,255,0.15);background:rgba(255,255,255,0.02);}
+.test-quote {
+  font-family:'Syne',sans-serif;
+  font-size:20px;font-weight:300;font-style:italic;
+  line-height:1.6;color:rgba(255,255,255,0.7);
+  margin-bottom:28px;
+}
+.test-quote::before{content:'"';color:var(--light);}
+.test-quote::after{content:'"';color:var(--light);}
+.test-sep{width:24px;height:1px;background:var(--border);margin-bottom:20px;}
+.test-name {
+  font-size:13px;font-weight:500;color:var(--white);margin-bottom:3px;
+}
+.test-role{font-size:12px;color:var(--dim);}
+.test-stars{color:var(--light);font-size:11px;letter-spacing:2px;margin-bottom:20px;}
+
+/* ── FAQ ── */
+#faq {
+  padding:160px 0;
+  background:#0a0a0a;
+  border-top:1px solid var(--border);
+}
+.faq-inner {
+  display:grid;grid-template-columns:1fr 2fr;gap:80px;
+}
+.faq-left{}
+.faq-left .section-title{position:sticky;top:120px;}
+
+.faq-list{display:flex;flex-direction:column;}
+.faq-item{border-bottom:1px solid var(--border);}
+.faq-q {
+  width:100%;background:none;border:none;
+  padding:24px 0;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  font-family:'Instrument Sans',sans-serif;font-size:15px;font-weight:400;
+  color:rgba(255,255,255,0.7);text-align:left;
+  transition:color .2s;
+}
+.faq-q:hover{color:var(--white);}
+.faq-plus {
+  width:22px;height:22px;border-radius:50%;
+  border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;flex-shrink:0;color:rgba(255,255,255,0.4);
+  transition:transform .3s,border-color .2s,color .2s;
+}
+.faq-item.open .faq-plus{transform:rotate(45deg);border-color:rgba(255,255,255,0.3);color:var(--white);}
+.faq-item.open .faq-q{color:var(--white);}
+.faq-a {
+  max-height:0;overflow:hidden;
+  transition:max-height .4s cubic-bezier(.16,1,.3,1),padding .3s;
+  font-size:14px;font-weight:300;color:rgba(255,255,255,0.4);line-height:1.8;
+  padding:0;
+}
+.faq-item.open .faq-a{max-height:160px;padding-bottom:24px;}
+
+/* ── CTA FINAL ── */
+#cta-final {
+  padding:200px 48px;
+  text-align:center;
+  position:relative;overflow:hidden;
+  background:var(--black);
+  border-top:1px solid var(--border);
+}
+.cta-glow {
+  position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 60% at 50% 50%,rgba(26,92,191,0.15) 0%,transparent 70%);
+}
+.cta-eyebrow {
+  font-size:10px;letter-spacing:4px;text-transform:uppercase;
+  color:var(--light);margin-bottom:28px;
+}
+.cta-title {
+  font-family:'Syne',sans-serif;
+  font-size:clamp(52px,7vw,96px);
+  font-weight:300;line-height:1.0;
+  color:var(--white);margin-bottom:32px;
+  letter-spacing:-1px;
+  position:relative;z-index:1;
+}
+.cta-title em{font-style:italic;color:var(--silver);}
+.cta-sub {
+  font-size:17px;font-weight:300;
+  color:rgba(255,255,255,0.4);
+  max-width:460px;margin:0 auto 48px;line-height:1.7;
+  position:relative;z-index:1;
+}
+.cta-btn {
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--white);color:var(--black);
+  font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:500;
+  padding:16px 36px;border-radius:100px;
+  text-decoration:none;
+  position:relative;z-index:1;
+  transition:transform .25s,box-shadow .25s;
+  box-shadow:0 0 40px rgba(255,255,255,0.1);
+}
+.cta-btn:hover{transform:scale(1.03);box-shadow:0 0 60px rgba(255,255,255,0.18);}
+.cta-wa-icon{width:16px;height:16px;}
+.cta-note{
+  margin-top:20px;font-size:12px;
+  color:rgba(255,255,255,0.2);letter-spacing:.5px;
+  position:relative;z-index:1;
+}
+
+/* ── FOOTER ── */
+footer {
+  background:var(--black);
+  padding:64px 0 40px;
+  border-top:1px solid var(--border);
+}
+.footer-inner {
+  display:grid;grid-template-columns:2.5fr 1fr 1fr 1fr;
+  gap:48px;margin-bottom:60px;
+}
+.footer-wordmark {
+  font-family:'Syne',sans-serif;
+  font-size:22px;font-weight:400;letter-spacing:2px;
+  color:var(--white);margin-bottom:14px;
+}
+.footer-wordmark em{color:var(--light);font-style:normal;}
+.footer-desc{
+  font-size:13px;font-weight:300;
+  color:rgba(255,255,255,0.3);line-height:1.7;max-width:280px;
+}
+.footer-col-title{
+  font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(255,255,255,0.2);margin-bottom:16px;
+}
+.footer-links{display:flex;flex-direction:column;gap:10px;}
+.footer-links a{
+  font-size:13px;font-weight:300;color:rgba(255,255,255,0.4);
+  text-decoration:none;transition:color .2s;
+}
+.footer-links a:hover{color:var(--white);}
+.footer-bottom{
+  padding-top:32px;border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.footer-copy{font-size:12px;color:rgba(255,255,255,0.15);}
+.footer-legal{display:flex;gap:24px;}
+.footer-legal a{font-size:12px;color:rgba(255,255,255,0.2);text-decoration:none;transition:color .2s;}
+.footer-legal a:hover{color:rgba(255,255,255,0.5);}
+
+/* ── WA FLOAT (único botón flotante) ── */
+.wa-float {
+  position:fixed;bottom:32px;right:32px;z-index:999;
+  width:52px;height:52px;border-radius:50%;
+  background:var(--green);
+  display:flex;align-items:center;justify-content:center;
+  text-decoration:none;
+  box-shadow:0 4px 20px rgba(37,211,102,0.3);
+  transition:transform .2s,box-shadow .2s;
+}
+.wa-float:hover{transform:scale(1.08);box-shadow:0 8px 32px rgba(37,211,102,0.45);}
+
+/* ── ANIMATIONS ── */
+@-webkit-keyframes fadeIn{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+@-webkit-keyframes slideUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+@keyframes slideUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+
+/* Scroll reveal */
+.reveal{opacity:1;transform:none;transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1);}
+.js-ready .reveal{opacity:0;transform:translateY(24px);}
+.js-ready .reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-delay-1{transition-delay:.1s;}
+.reveal-delay-2{transition-delay:.2s;}
+.reveal-delay-3{transition-delay:.3s;}
+.reveal-delay-4{transition-delay:.4s;}
+
+/* ── RESPONSIVE ── */
+/* ── TABLET ── */
+@media(max-width:900px){
+  .nav-links{display:none;}
+  .container{padding:0 28px;}
+  .nav-inner{padding:0 28px;}
+
+  #hero{padding:110px 28px 72px;text-align:center;}
+  .hero-eyebrow{justify-content:center;}
+  .hero-sub{margin-left:auto;margin-right:auto;}
+  .hero-actions{justify-content:center;}
+  .hero-stats{flex-direction:row;flex-wrap:wrap;border-radius:12px;width:100%;}
+  .hero-stat{flex:1;min-width:120px;border-right:1px solid var(--border);border-bottom:none;}
+  .hero-stat:last-child{border-right:none;}
+
+  .problema-inner{grid-template-columns:1fr;gap:48px;}
+  .bullets-grid{grid-template-columns:1fr 1fr;}
+  .timeline{grid-template-columns:repeat(3,1fr);}
+  .tl-item::after,.tl-item::before{display:none;}
+  .tl-track-wrap::before{display:none;}
+  .bene-grid{grid-template-columns:1fr;}
+  .bene-card.featured{grid-column:1;grid-template-columns:1fr;gap:32px;}
+  .test-grid{grid-template-columns:1fr 1fr;}
+  .faq-inner{grid-template-columns:1fr;gap:32px;}
+  .faq-left .section-title{position:static;}
+  .precio-top{flex-direction:column;text-align:center;gap:12px;}
+  .precio-bottom{flex-direction:column;gap:16px;}
+  .precio-cta{margin:0 auto;}
+  .footer-inner{grid-template-columns:1fr 1fr;gap:32px;}
+  .footer-bottom{flex-direction:column;gap:12px;text-align:center;}
+  #cta-final{padding:120px 28px;}
+  section[id]{padding-left:0;padding-right:0;}
+  #problema,#solucion,#como,#beneficios,#testimonios,#faq{padding:100px 0;}
+}
+
+/* ── MOBILE ── */
+@media(max-width:640px){
+  /* Nav */
+  .nav-inner{padding:0 20px;}
+  .nav-cta span{display:none;}
+
+  /* Hero */
+  #hero{padding:100px 20px 60px;}
+  .hero-title{font-size:clamp(40px,11vw,56px);}
+  .hero-sub{font-size:15px;}
+  .hero-actions{flex-direction:column;align-items:center;gap:14px;}
+  .btn-ghost{margin:0;}
+  .hero-stats{flex-direction:column;border-radius:14px;}
+  .hero-stat{border-right:none;border-bottom:1px solid var(--border);padding:14px 24px;}
+  .hero-stat:last-child{border-bottom:none;}
+  .hero-stat-val{font-size:22px;}
+
+  /* Sections padding */
+  .container{padding:0 20px;}
+  #problema,#solucion,#como,#beneficios,#testimonios,#faq{padding:80px 0;}
+  #cta-final{padding:100px 20px;}
+
+  /* Section typography */
+  .section-title{font-size:clamp(32px,8vw,44px);}
+  .section-body{font-size:14px;}
+
+  /* Problema pain list */
+  .pain-item{gap:12px;}
+  .pain-num{display:none;}
+
+  /* Bullets */
+  .bullets-grid{grid-template-columns:1fr;}
+
+  /* Precio block */
+  .precio-top{padding:28px 24px;}
+  .precio-bottom{padding:16px 24px;}
+  .precio-amount-lg{font-size:36px;}
+  .precio-includes{flex-direction:column;gap:8px;}
+
+  /* Timeline — vertical stack */
+  .timeline{grid-template-columns:1fr;gap:0;}
+  .tl-item{
+    flex-direction:row;
+    align-items:flex-start;
+    text-align:left;
+    padding:24px 0;
+    border-bottom:1px solid var(--border);
+    gap:16px;
+  }
+  .tl-item:last-child{border-bottom:none;}
+  .tl-node{
+    margin-bottom:0;
+    flex-shrink:0;
+    margin-top:4px;
+  }
+  .tl-detail{display:none;}
+  .tl-step-num{font-size:8px;}
+  .tl-title{font-size:13px;margin-bottom:6px;}
+
+  /* Beneficios */
+  .bene-card.featured{padding:32px 24px;}
+  .bene-card.featured .bene-title{font-size:22px;}
+  .bene-card.small{padding:28px 24px;}
+  .bene-bg-num{font-size:80px;}
+  .bene-stat-val{font-size:22px;min-width:60px;}
+
+  /* Testimonios */
+  .test-grid{grid-template-columns:1fr;}
+  .test-quote{font-size:17px;}
+
+  /* FAQ */
+  .faq-list{gap:0;}
+  .faq-q{font-size:14px;padding:18px 0;}
+
+  /* CTA */
+  .cta-title{font-size:clamp(38px,10vw,60px);}
+  .cta-sub{font-size:15px;}
+  .cta-btn{width:100%;justify-content:center;}
+
+  /* Footer */
+  .footer-inner{grid-template-columns:1fr;gap:32px;}
+  .footer-bottom{flex-direction:column;gap:10px;text-align:center;}
+  footer{padding:48px 0 32px;}
+
+  /* WA float smaller */
+  .wa-float{width:46px;height:46px;bottom:20px;right:20px;}
+}
+</style>
+<!-- Netlify Identity widget: maneja la invitación inicial al panel admin -->
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div id="cursor"></div>
+
+<!-- WA Float — único -->
+<a href="https://wa.me/595982086676" class="wa-float" target="_blank" aria-label="WhatsApp" data-wa="float">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <div class="nav-bar"></div>
+      <div class="nav-wordmark" data-logo-slot="nav"><em>Yo</em>Lo<em>L</em>levo</div>
+    </a>
+    <div class="nav-links">
+      <a href="#como">Cómo funciona</a>
+      <a href="#beneficios">Beneficios</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <a href="https://wa.me/595982086676" class="nav-cta" target="_blank" data-wa="nav">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Agendar
+    </a>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-grain"></div>
+
+  <div class="hero-eyebrow" data-content="hero.eyebrow">Servicio automotriz premium · Asunción</div>
+
+  <h1 class="hero-title">
+    <span data-content="hero.titulo_linea1">Tu auto al taller.</span><br>
+    <em data-content="hero.titulo_linea2">Sin que te muevas.</em>
+  </h1>
+
+  <p class="hero-sub" data-content="hero.subtitulo">
+    Coordinamos el servicio, retiramos tu vehículo, lo llevamos al taller y te lo devolvemos listo. Con inspección documentada y seguimiento en tiempo real.
+  </p>
+
+  <div class="hero-actions">
+    <a href="https://wa.me/595982086676" class="btn-primary" target="_blank" data-wa="hero">
+      <svg class="cta-wa-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      <span data-content="hero.cta_principal">Agendar por WhatsApp</span>
+    </a>
+    <a href="#como" class="btn-ghost">
+      <span data-content="hero.cta_secundario">Ver cómo funciona</span> <span class="arrow">→</span>
+    </a>
+  </div>
+
+  <div class="hero-stats" data-content-stats="hero.stats">
+    <div class="hero-stat">
+      <div class="hero-stat-val">6</div>
+      <div class="hero-stat-label">Pasos simples</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-val">100%</div>
+      <div class="hero-stat-label">Por WhatsApp</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-val">250.000</div>
+      <div class="hero-stat-label">Precio fijo · Gs</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-val">0</div>
+      <div class="hero-stat-label">Esperas para vos</div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══ PROBLEMA ══ -->
+<section id="problema">
+  <div class="container">
+    <div class="problema-inner">
+      <div class="reveal">
+        <span class="section-label" data-content="problema.label">El problema</span>
+        <h2 class="section-title" data-content="problema.titulo" data-content-html="true">Ir al taller es una <em>pérdida de tiempo.</em></h2>
+        <p class="section-body" data-content="problema.subtitulo">Entre trasladar el auto, esperar turno, conseguir transporte de vuelta y buscarlo más tarde, podés perder medio día. Y sin saber qué le están haciendo a tu vehículo.</p>
+      </div>
+      <div class="pain-list reveal reveal-delay-2" data-content-list="problema.puntos">
+        <div class="pain-item">
+          <div class="pain-num">01</div>
+          <div>
+            <div class="pain-title">Horas perdidas en traslados y esperas</div>
+            <div class="pain-desc">Coordinás transporte de ida, esperás en el taller y después repetís el proceso para buscarlo.</div>
+          </div>
+        </div>
+        <div class="pain-item">
+          <div class="pain-num">02</div>
+          <div>
+            <div class="pain-title">Sin turnos claros ni seguimiento</div>
+            <div class="pain-desc">Muchos talleres no informan el estado del trabajo hasta que llamás vos.</div>
+          </div>
+        </div>
+        <div class="pain-item">
+          <div class="pain-num">03</div>
+          <div>
+            <div class="pain-title">Tráfico, horarios y estrés innecesario</div>
+            <div class="pain-desc">Todo en medio de tu jornada. Tiempo que podrías estar usando en algo más importante.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SOLUCIÓN ══ -->
+<section id="solucion">
+  <div class="container">
+    <div class="solucion-header reveal">
+      <span class="section-label">La solución</span>
+      <h2 class="section-title">Nosotros nos <em>encargamos de todo.</em></h2>
+      <p class="section-body">Un mensaje y comenzamos. Sin apps adicionales, sin formularios, sin complicaciones.</p>
+    </div>
+
+    <div class="bullets-grid reveal reveal-delay-1">
+      <div class="bullet-card">
+        <div class="bullet-num">01</div>
+        <div class="bullet-title">Retiro y entrega en tu domicilio</div>
+        <div class="bullet-desc">Casa, oficina o donde te quede más cómodo. Nosotros hacemos el recorrido.</div>
+      </div>
+      <div class="bullet-card">
+        <div class="bullet-num">02</div>
+        <div class="bullet-title">Coordinación completa con el taller</div>
+        <div class="bullet-desc">Gestionamos el turno, el diagnóstico y el seguimiento. Vos no llamás a nadie.</div>
+      </div>
+      <div class="bullet-card">
+        <div class="bullet-num">03</div>
+        <div class="bullet-title">Presupuesto estimado automático</div>
+        <div class="bullet-desc">Calculamos el costo aproximado según tu auto y el servicio antes de arrancar.</div>
+      </div>
+      <div class="bullet-card">
+        <div class="bullet-num">04</div>
+        <div class="bullet-title">Seguimiento en tiempo real</div>
+        <div class="bullet-desc">Sabés exactamente dónde está tu auto durante todo el proceso.</div>
+      </div>
+      <div class="bullet-card">
+        <div class="bullet-num">05</div>
+        <div class="bullet-title">Inspección inicial y final</div>
+        <div class="bullet-desc">Estado del vehículo documentado con fotos al retirar y al entregar.</div>
+      </div>
+      <div class="bullet-card">
+        <div class="bullet-num">06</div>
+        <div class="bullet-title">Comunicación 100% WhatsApp</div>
+        <div class="bullet-desc">Sin apps que descargar. Todo por el canal que ya usás.</div>
+      </div>
+    </div>
+
+    <div class="precio-block reveal reveal-delay-2">
+      <div class="precio-top">
+        <div>
+          <div class="precio-label-sm" data-content="precio.label_pequeno">Servicio de logística automotriz</div>
+          <div class="precio-service" data-content="precio.servicio">Retiro y entrega de vehículo</div>
+        </div>
+        <div class="precio-amount-lg"><span data-content="precio.monto">250.000</span> <span data-content="precio.moneda">Gs</span></div>
+      </div>
+      <div class="precio-bottom">
+        <div class="precio-includes" data-content-list-simple="precio.incluye">
+          <div class="precio-include-item">Precio fijo</div>
+          <div class="precio-include-item">Inspección inicial</div>
+          <div class="precio-include-item">Inspección final</div>
+          <div class="precio-include-item">Seguimiento GPS</div>
+          <div class="precio-include-item">Sin costos ocultos</div>
+        </div>
+        <a href="https://wa.me/595982086676" class="precio-cta" target="_blank" data-wa="precios" data-content="precio.cta">Agendar →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CÓMO FUNCIONA ══ -->
+<section id="como">
+  <div class="container">
+    <div class="como-header reveal">
+      <span class="section-label">El proceso</span>
+      <h2 class="section-title">Seis pasos. <em>Todo claro.</em></h2>
+      <p class="section-body">Diseñado para que no tengas que preocuparte por nada.</p>
+    </div>
+
+    <div class="tl-track-wrap">
+      <div class="timeline">
+
+        <div class="tl-item">
+          <div class="tl-node">
+            <!-- Message bubble -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <div class="tl-step-num">Paso 01</div>
+          <div class="tl-title">Enviás los datos</div>
+          <ul class="tl-desc">
+            <li>Marca, modelo, año</li>
+            <li>Cédula verde</li>
+            <li>Servicio y dirección</li>
+          </ul>
+          <div class="tl-detail"><div class="tl-detail-inner">Todo por WhatsApp. Sin formularios ni apps adicionales.</div></div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-node">
+            <!-- File / estimate -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10 9 9 9 8 9"/>
+            </svg>
+          </div>
+          <div class="tl-step-num">Paso 02</div>
+          <div class="tl-title">Recibís presupuesto</div>
+          <ul class="tl-desc">
+            <li>Costo estimado</li>
+            <li>250.000 Gs de retiro</li>
+            <li>Aprobás antes</li>
+          </ul>
+          <div class="tl-detail"><div class="tl-detail-inner">Precio transparente antes de confirmar. Sin sorpresas.</div></div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-node">
+            <!-- Calendar -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+          </div>
+          <div class="tl-step-num">Paso 03</div>
+          <div class="tl-title">Elegís el turno</div>
+          <ul class="tl-desc">
+            <li>Horarios disponibles</li>
+            <li>El que más te quede</li>
+            <li>Confirmación al instante</li>
+          </ul>
+          <div class="tl-detail"><div class="tl-detail-inner">Te mostramos los turnos libres del taller en tiempo real.</div></div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-node">
+            <!-- Car / navigation -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v9a2 2 0 0 1-2 2h-3"/>
+              <circle cx="7.5" cy="17.5" r="2.5"/>
+              <circle cx="17.5" cy="17.5" r="2.5"/>
+            </svg>
+          </div>
+          <div class="tl-step-num">Paso 04</div>
+          <div class="tl-title">Retiramos tu auto</div>
+          <ul class="tl-desc">
+            <li>Chofer identificado</li>
+            <li>Inspección con fotos</li>
+            <li>GPS en tiempo real</li>
+          </ul>
+          <div class="tl-detail"><div class="tl-detail-inner">Documentamos el estado antes de salir. Todo te llega por WhatsApp.</div></div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-node">
+            <!-- Wrench / tool -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+            </svg>
+          </div>
+          <div class="tl-step-num">Paso 05</div>
+          <div class="tl-title">Servicio en taller</div>
+          <ul class="tl-desc">
+            <li>Aviso de llegada</li>
+            <li>Estado del trabajo</li>
+            <li>Aviso cuando listo</li>
+          </ul>
+          <div class="tl-detail"><div class="tl-detail-inner">Seguimiento completo sin que tengas que llamar a nadie.</div></div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-node">
+            <!-- Shield check -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <polyline points="9 12 11 14 15 10"/>
+            </svg>
+          </div>
+          <div class="tl-step-num">Paso 06</div>
+          <div class="tl-title">Entrega final</div>
+          <ul class="tl-desc">
+            <li>Inspección final</li>
+            <li>Fotos del estado</li>
+            <li>Entrega en domicilio</li>
+          </ul>
+          <div class="tl-detail"><div class="tl-detail-inner">Tu auto de vuelta, documentado y listo. Sin que hayas movido un pie.</div></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ BENEFICIOS ══ -->
+<section id="beneficios">
+  <div class="container">
+    <div class="bene-header reveal">
+      <span class="section-label">Por qué elegirnos</span>
+      <h2 class="section-title">Todo lo que <em>ganás.</em></h2>
+      <p class="section-body">No es solo llevar y traer un auto. Es devolverte el tiempo, la tranquilidad y el control sobre tu vehículo.</p>
+    </div>
+    <div class="bene-grid reveal reveal-delay-1">
+
+      <!-- Featured card -->
+      <div class="bene-card featured">
+        <div>
+          <span class="bene-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#4a9eff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </span>
+          <div class="bene-title">Ahorrás horas de tu día, cada vez.</div>
+          <p class="bene-desc">Sin traslados de ida y vuelta, sin esperar en el taller, sin interrumpir tu jornada laboral. Vos seguís con tu vida mientras nosotros nos encargamos de todo.</p>
+        </div>
+        <div class="bene-visual">
+          <div class="bene-stat-row">
+            <div class="bene-stat-val">3 Hs</div>
+            <div class="bene-stat-label">promedio recuperadas por servicio</div>
+          </div>
+          <div class="bene-stat-row">
+            <div class="bene-stat-val">100%</div>
+            <div class="bene-stat-label">Comunicación por WhatsApp</div>
+          </div>
+          <div class="bene-stat-row">
+            <div class="bene-stat-val">6</div>
+            <div class="bene-stat-label">Pasos, todo documentado</div>
+          </div>
+        </div>
+        <div class="bene-bg-num">01</div>
+      </div>
+
+      <!-- Small cards -->
+      <div class="bene-card small">
+        <span class="bene-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4a9eff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+        </span>
+        <div class="bene-title">Seguimiento en tiempo real</div>
+        <p class="bene-desc">Sabés dónde está tu auto en todo momento. Sin llamar, sin preguntar.</p>
+        <div class="bene-bg-num">02</div>
+      </div>
+
+      <div class="bene-card small">
+        <span class="bene-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4a9eff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </span>
+        <div class="bene-title">Inspección documentada</div>
+        <p class="bene-desc">Fotos del estado inicial y final del vehículo. Transparencia total.</p>
+        <div class="bene-bg-num">03</div>
+      </div>
+
+      <div class="bene-card small">
+        <span class="bene-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4a9eff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="1" x2="12" y2="23"/>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+        </span>
+        <div class="bene-title">Precio fijo, sin sorpresas</div>
+        <p class="bene-desc">250.000 Gs. Sin costos ocultos, sin cargos extra.</p>
+        <div class="bene-bg-num">04</div>
+      </div>
+
+      <div class="bene-card small">
+        <span class="bene-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4a9eff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <polyline points="9 12 11 14 15 10"/>
+          </svg>
+        </span>
+        <div class="bene-title">Talleres verificados</div>
+        <p class="bene-desc">Solo trabajamos con talleres evaluados. Calidad garantizada en cada servicio.</p>
+        <div class="bene-bg-num">05</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ TESTIMONIOS ══ -->
+<section id="testimonios">
+  <div class="container">
+    <div class="test-header reveal">
+      <span class="section-label">Lo que dicen</span>
+      <h2 class="section-title">Clientes que ya <em>recuperaron su tiempo.</em></h2>
+    </div>
+    <div class="test-grid reveal reveal-delay-1" data-content-testimonios="testimonios">
+      <div class="test-card">
+        <div class="test-stars">★★★★★</div>
+        <p class="test-quote">Me ahorraron medio día de trabajo. Enviaron fotos al retirar y al entregar. Impecable.</p>
+        <div class="test-sep"></div>
+        <div class="test-name">Martín R.</div>
+        <div class="test-role">Ejecutivo comercial</div>
+      </div>
+      <div class="test-card">
+        <p class="test-quote">El seguimiento por WhatsApp me dio mucha tranquilidad. Supe en todo momento dónde estaba mi camioneta.</p>
+        <div class="test-sep"></div>
+        <div class="test-name">Sandra L.</div>
+        <div class="test-role">Contadora independiente</div>
+      </div>
+      <div class="test-card">
+        <p class="test-quote">El chofer súper profesional y puntual. El auto volvió listo y con todo en orden. Lo recomiendo sin dudas.</p>
+        <div class="test-sep"></div>
+        <div class="test-name">Diego P.</div>
+        <div class="test-role">Médico</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FAQ ══ -->
+<section id="faq">
+  <div class="container">
+    <div class="faq-inner">
+      <div class="reveal">
+        <span class="section-label">Preguntas</span>
+        <h2 class="section-title">Todo lo que <em>querés saber.</em></h2>
+      </div>
+      <div class="faq-list reveal reveal-delay-2" data-content-faq="faq">
+        <div class="faq-item">
+          <button class="faq-q">¿Qué talleres utilizan?<span class="faq-plus">+</span></button>
+          <div class="faq-a">Trabajamos con talleres evaluados previamente. Al coordinar tu servicio te informamos qué taller se encargará y podés aprobarlo antes de confirmar.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">¿Qué pasa si el presupuesto final cambia?<span class="faq-plus">+</span></button>
+          <div class="faq-a">Si durante el servicio el taller detecta algo adicional, te avisamos antes de proceder. Nunca se realizan trabajos extras sin tu aprobación previa por WhatsApp.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">¿Qué incluye la inspección inicial?<span class="faq-plus">+</span></button>
+          <div class="faq-a">Documentamos el estado exterior del vehículo con fotos de todos los ángulos, nivel de combustible, estado de los vidrios y cualquier detalle visible. Todo te llega por WhatsApp antes de salir de tu domicilio.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">¿Cómo funciona el seguimiento en tiempo real?<span class="faq-plus">+</span></button>
+          <div class="faq-a">Una vez que el chofer retira el vehículo, compartimos la ubicación en tiempo real por WhatsApp. Podés ver el recorrido hasta que el auto llega al taller.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">¿Puedo reprogramar el turno?<span class="faq-plus">+</span></button>
+          <div class="faq-a">Sí, podés reprogramar hasta 2 horas antes del turno acordado, sin costo. Solo avisás por WhatsApp y buscamos el próximo horario disponible.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">¿Qué pasa si llueve el día del retiro?<span class="faq-plus">+</span></button>
+          <div class="faq-a">El servicio funciona con cualquier clima. Si preferís reprogramar por condiciones extremas, lo hacemos sin costo adicional y sin complicaciones.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA FINAL ══ -->
+<section id="cta-final">
+  <div class="cta-glow"></div>
+  <div class="reveal">
+    <div class="cta-eyebrow" data-content="cta_final.eyebrow">Empezá ahora</div>
+    <h2 class="cta-title">
+      <span data-content="cta_final.titulo_linea1">Tu auto listo.</span><br>
+      <em data-content="cta_final.titulo_linea2">Vos en tu lugar.</em>
+    </h2>
+    <p class="cta-sub" data-content="cta_final.subtitulo">Un mensaje y nos encargamos de todo. Sin esperas, sin traslados, sin complicaciones.</p>
+    <a href="https://wa.me/595982086676" class="cta-btn" target="_blank" data-wa="cta_final">
+      <svg class="cta-wa-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      <span data-content="cta_final.boton">Agendar por WhatsApp</span>
+    </a>
+    <p class="cta-note" data-content="cta_final.nota">Respondemos en minutos · Lun–Sáb 8:00 – 18:00</p>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-wordmark" data-logo-slot="footer"><em>Yo</em>Lo<em>L</em>levo</div>
+        <p class="footer-desc" data-content="footer.descripcion">Servicio de retiro y entrega de vehículos con coordinación completa del taller. Tu auto listo, sin que te muevas.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Servicio</div>
+        <div class="footer-links">
+          <a href="#">Retiro y entrega</a>
+          <a href="#">Service general</a>
+          <a href="#">Diagnóstico</a>
+          <a href="#">Frenos</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Empresa</div>
+        <div class="footer-links">
+          <a href="#como">Cómo funciona</a>
+          <a href="#faq">Preguntas frecuentes</a>
+          <a href="#testimonios">Testimonios</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Contacto</div>
+        <div class="footer-links">
+          <a href="https://wa.me/595982086676" target="_blank" data-wa="footer">WhatsApp</a>
+          <a href="#" data-content-href="footer.instagram_url">Instagram</a>
+          <a href="#" data-content-href="footer.facebook_url">Facebook</a>
+          <a href="#" data-content="footer.ciudad">Asunción, PY</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy" data-content="footer.copyright">© 2025 YoLoLlevo. Todos los derechos reservados.</div>
+      <div class="footer-legal">
+        <a href="#">Términos del servicio</a>
+        <a href="#">Privacidad</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Custom cursor
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove',e=>{
+  cursor.style.left=e.clientX+'px';
+  cursor.style.top=e.clientY+'px';
+});
+
+// Nav scroll
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{
+  nav.classList.toggle('scrolled',window.scrollY>40);
+});
+
+// Scroll reveal — safe for iOS Safari
+document.body.classList.add('js-ready');
+const reveals=document.querySelectorAll('.reveal');
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}
+  });
+},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
+// Immediately mark in-viewport elements as visible
+reveals.forEach(r=>{
+  const rect=r.getBoundingClientRect();
+  if(rect.top < window.innerHeight){r.classList.add('visible');}
+  else{obs.observe(r);}
+});
+
+// FAQ
+document.querySelectorAll('.faq-q').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const item=btn.parentElement;
+    const open=item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+    if(!open) item.classList.add('open');
+  });
+});
+</script>
+
+<!-- ══ CONTENT LOADER ══ -->
+<!-- Carga content.json y reemplaza textos dinámicamente. Si el JSON falla, queda el contenido por defecto del HTML. -->
+<script>
+(async function loadContent(){
+  try {
+    const res = await fetch('content.json?v=' + Date.now());
+    if(!res.ok) throw new Error('No se pudo cargar content.json');
+    const data = await res.json();
+
+    // Helper: obtener valor de path tipo "hero.titulo"
+    const get = (path) => path.split('.').reduce((o,k) => (o && o[k] !== undefined) ? o[k] : null, data);
+
+    // 1. Textos simples: data-content="seccion.campo"
+    document.querySelectorAll('[data-content]').forEach(el => {
+      const val = get(el.dataset.content);
+      if(val === null) return;
+      if(el.dataset.contentHtml === 'true') el.innerHTML = val;
+      else el.textContent = val;
+    });
+
+    // 2. href dinámico: data-content-href="seccion.campo"
+    document.querySelectorAll('[data-content-href]').forEach(el => {
+      const val = get(el.dataset.contentHref);
+      if(val !== null) el.href = val;
+    });
+
+    // 3. Stats del hero: data-content-stats="hero.stats"
+    document.querySelectorAll('[data-content-stats]').forEach(el => {
+      const stats = get(el.dataset.contentStats);
+      if(!Array.isArray(stats)) return;
+      el.innerHTML = stats.map(s => `
+        <div class="hero-stat">
+          <div class="hero-stat-val">${s.valor}</div>
+          <div class="hero-stat-label">${s.label}</div>
+        </div>
+      `).join('');
+    });
+
+    // 4. Lista de puntos del problema: data-content-list="problema.puntos"
+    document.querySelectorAll('[data-content-list]').forEach(el => {
+      const items = get(el.dataset.contentList);
+      if(!Array.isArray(items)) return;
+      el.innerHTML = items.map((item, i) => `
+        <div class="pain-item">
+          <div class="pain-num">${String(i+1).padStart(2,'0')}</div>
+          <div>
+            <div class="pain-title">${item.titulo}</div>
+            <div class="pain-desc">${item.desc}</div>
+          </div>
+        </div>
+      `).join('');
+    });
+
+    // 5. Lista simple (precio.incluye): data-content-list-simple="precio.incluye"
+    document.querySelectorAll('[data-content-list-simple]').forEach(el => {
+      const items = get(el.dataset.contentListSimple);
+      if(!Array.isArray(items)) return;
+      el.innerHTML = items.map(it => `<div class="precio-include-item">${it}</div>`).join('');
+    });
+
+    // 6. Testimonios: data-content-testimonios="testimonios"
+    document.querySelectorAll('[data-content-testimonios]').forEach(el => {
+      const items = get(el.dataset.contentTestimonios);
+      if(!Array.isArray(items)) return;
+      el.innerHTML = items.map((t, i) => `
+        <div class="test-card">
+          ${i === 0 ? '<div class="test-stars">★★★★★</div>' : ''}
+          <p class="test-quote">${t.quote}</p>
+          <div class="test-sep"></div>
+          <div class="test-name">${t.nombre}</div>
+          <div class="test-role">${t.rol}</div>
+        </div>
+      `).join('');
+    });
+
+    // 7. FAQ: data-content-faq="faq"
+    document.querySelectorAll('[data-content-faq]').forEach(el => {
+      const items = get(el.dataset.contentFaq);
+      if(!Array.isArray(items)) return;
+      el.innerHTML = items.map(f => `
+        <div class="faq-item">
+          <button class="faq-q">${f.pregunta}<span class="faq-plus">+</span></button>
+          <div class="faq-a">${f.respuesta}</div>
+        </div>
+      `).join('');
+      // Reattach FAQ click handlers después de regenerar
+      el.querySelectorAll('.faq-q').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const item = btn.closest('.faq-item');
+          const open = item.classList.contains('open');
+          document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+          if(!open) item.classList.add('open');
+        });
+      });
+    });
+
+    // 8. Enlaces de WhatsApp con mensajes pre-llenados
+    const num = (data.contacto && data.contacto.whatsapp_numero) || '595982086676';
+    const msgMap = {
+      hero: data.contacto?.mensaje_hero,
+      nav: data.contacto?.mensaje_hero,
+      precios: data.contacto?.mensaje_precios,
+      cta_final: data.contacto?.mensaje_hero,
+      footer: data.contacto?.mensaje_general,
+      float: data.contacto?.mensaje_general
+    };
+    document.querySelectorAll('[data-wa]').forEach(a => {
+      const tipo = a.dataset.wa;
+      const msg = msgMap[tipo] || data.contacto?.mensaje_general || '';
+      const url = msg ? `https://wa.me/${num}?text=${encodeURIComponent(msg)}` : `https://wa.me/${num}`;
+      a.href = url;
+    });
+
+    // 9. Logo: si hay imagen configurada, reemplaza el wordmark de texto
+    if (data.logo) {
+      const navSlot = document.querySelector('[data-logo-slot="nav"]');
+      const footerSlot = document.querySelector('[data-logo-slot="footer"]');
+      if (navSlot && data.logo.imagen_nav) {
+        const h = data.logo.alto_nav_px || 32;
+        navSlot.innerHTML = `<img src="${data.logo.imagen_nav}" alt="Logo" style="height:${h}px">`;
+        // Ocultar barra decorativa cuando hay logo imagen
+        const navBar = document.querySelector('.nav-bar');
+        if (navBar) navBar.style.display = 'none';
+      }
+      if (footerSlot && data.logo.imagen_footer) {
+        const h = data.logo.alto_footer_px || 48;
+        footerSlot.innerHTML = `<img src="${data.logo.imagen_footer}" alt="Logo" style="height:${h}px">`;
+      }
+    }
+
+    // 10. Google Analytics 4 (carga dinámica + event tracking)
+    initAnalytics(data.analytics);
+
+  } catch(err) {
+    console.warn('[YoLoLlevo] No se pudo cargar content.json, usando contenido por defecto:', err);
+  }
+})();
+
+// ═══ ANALYTICS ═══
+function initAnalytics(config) {
+  if (!config || !config.ga_activado || !config.ga_measurement_id) {
+    console.info('[Analytics] Desactivado o sin Measurement ID');
+    return;
+  }
+  const GA_ID = config.ga_measurement_id.trim();
+  if (!/^G-[A-Z0-9]+$/i.test(GA_ID)) {
+    console.warn('[Analytics] Measurement ID inválido:', GA_ID);
+    return;
+  }
+
+  // Cargar script de gtag
+  const s = document.createElement('script');
+  s.async = true;
+  s.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+  document.head.appendChild(s);
+
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function(){ window.dataLayer.push(arguments); };
+  gtag('js', new Date());
+  gtag('config', GA_ID, { send_page_view: true });
+
+  console.info('[Analytics] Activado:', GA_ID);
+
+  // ── Event: WhatsApp clicks ──
+  document.querySelectorAll('[data-wa]').forEach(a => {
+    a.addEventListener('click', () => {
+      gtag('event', 'whatsapp_click', {
+        source: a.dataset.wa,           // hero, nav, precios, cta_final, footer, float
+        link_url: a.href
+      });
+    });
+  });
+
+  // ── Event: FAQ open ──
+  // Delegación porque el FAQ se regenera dinámicamente
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.faq-q');
+    if (!btn) return;
+    const item = btn.closest('.faq-item');
+    // Se trackea solo cuando se ABRE (no cuando se cierra)
+    setTimeout(() => {
+      if (item.classList.contains('open')) {
+        const pregunta = btn.textContent.replace('+','').trim().slice(0, 80);
+        gtag('event', 'faq_open', { pregunta });
+      }
+    }, 50);
+  });
+
+  // ── Event: CTA secundario ("Ver cómo funciona") ──
+  const ctaGhost = document.querySelector('.btn-ghost');
+  if (ctaGhost) {
+    ctaGhost.addEventListener('click', () => {
+      gtag('event', 'cta_secundario_click', { label: 'ver_como_funciona' });
+    });
+  }
+
+  // ── Event: Scroll depth (25/50/75/100) ──
+  const thresholds = [25, 50, 75, 100];
+  const triggered = new Set();
+  function onScroll() {
+    const h = document.documentElement;
+    const scrolled = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    thresholds.forEach(t => {
+      if (scrolled >= t && !triggered.has(t)) {
+        triggered.add(t);
+        gtag('event', 'scroll_depth', { percent: t });
+      }
+    });
+    if (triggered.size === thresholds.length) {
+      window.removeEventListener('scroll', onScrollThrottled);
+    }
+  }
+  // Throttle simple
+  let scrollTimer;
+  function onScrollThrottled() {
+    if (scrollTimer) return;
+    scrollTimer = setTimeout(() => { onScroll(); scrollTimer = null; }, 250);
+  }
+  window.addEventListener('scroll', onScrollThrottled, { passive: true });
+}
+</script>
+
+<!-- Netlify Identity: redirige al admin después del login y maneja tokens de invitación -->
+<script>
+if (window.netlifyIdentity) {
+  window.netlifyIdentity.on("init", user => {
+    if (!user) {
+      window.netlifyIdentity.on("login", () => {
+        document.location.href = "/admin/";
+      });
+    }
+  });
+}
+</script>
+</body>
+</html>
