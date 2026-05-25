@@ -47,7 +47,7 @@
   "logo": {
     "imagen_nav": "/images/yolollevo-transparent-blanco-sinslogan-1600.png",
     "alto_nav_px": 70,
-    "imagen_footer": "",
+    "imagen_footer": "/images/yolollevo-transparent-blanco-sinslogan-1600.png",
     "alto_footer_px": 48
   },
   "contacto": {
