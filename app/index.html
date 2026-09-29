@@ -80,6 +80,40 @@
     tsr_auditoria: { table: "auditoria" },
   };
 
+  // ---- aviso visible cuando un guardado queda pendiente o falla ----
+  // Antes de esto, toda escritura a la nube era "fire and forget": si fallaba
+  // (por conexion, por un dato que Postgres rechaza, o porque se cerro la
+  // pestaña/app antes de que terminara), no habia ninguna señal para el
+  // usuario -- el cambio quedaba solo en este dispositivo, sin que nadie se
+  // entere hasta que otro dispositivo no lo vea. Esto agrega:
+  //  1) un contador global de guardados en curso (__syncPending) y el ultimo
+  //     error (__syncLastError), emitidos como evento "yolo-cloud-sync" para
+  //     que el aviso visual (mas abajo) se actualice solo;
+  //  2) una advertencia del navegador si se intenta cerrar/recargar la pagina
+  //     mientras hay guardados en curso (beforeunload).
+  var __syncPending = 0;
+  var __syncLastError = null;
+  function __syncStatusChanged() {
+    try {
+      window.dispatchEvent(new CustomEvent("yolo-cloud-sync", {
+        detail: { pending: __syncPending, error: __syncLastError },
+      }));
+    } catch (e) { /* noop */ }
+  }
+  function __syncBegin() {
+    __syncPending++;
+    __syncStatusChanged();
+  }
+  function __syncEnd(ok, mensaje) {
+    __syncPending = Math.max(0, __syncPending - 1);
+    if (!ok) {
+      __syncLastError = mensaje || "No se pudo guardar un cambio en la nube.";
+    } else if (__syncPending === 0) {
+      __syncLastError = null;
+    }
+    __syncStatusChanged();
+  }
+
   function fixNullableArrays(row, fields) {
     if (!fields) return row;
     var out = row;
@@ -145,6 +179,13 @@
       var prev = prevMap.get(k);
       if (!prev || JSON.stringify(prev) !== JSON.stringify(row)) toUpsert.push(row);
     });
+    var toDeleteIds = [];
+    if (!cfg.noDelete) {
+      prevMap.forEach(function (row, k) { if (!nextMap.has(k)) toDeleteIds.push(row.id); });
+    }
+    if (!toUpsert.length && !toDeleteIds.length) return;
+    __syncBegin();
+    var huboError = false;
     try {
       if (toUpsert.length) {
         var onConflict = keyFields.map(camelToSnake).join(",");
@@ -152,19 +193,17 @@
           return fixNumericFields(fixNullableArrays(r, cfg.nullableArrayFields), cfg.numericFields);
         });
         var res = await sb.from(cfg.table).upsert(fixedUpsert.map(rowToDb), { onConflict: onConflict });
-        if (res.error) console.warn("[cloud] upsert", cfg.table, res.error, toUpsert);
+        if (res.error) { console.warn("[cloud] upsert", cfg.table, res.error, toUpsert); huboError = true; }
       }
-      if (!cfg.noDelete) {
-        var toDeleteIds = [];
-        prevMap.forEach(function (row, k) { if (!nextMap.has(k)) toDeleteIds.push(row.id); });
-        if (toDeleteIds.length) {
-          var resD = await sb.from(cfg.table).delete().in("id", toDeleteIds);
-          if (resD.error) console.warn("[cloud] delete", cfg.table, resD.error);
-        }
+      if (toDeleteIds.length) {
+        var resD = await sb.from(cfg.table).delete().in("id", toDeleteIds);
+        if (resD.error) { console.warn("[cloud] delete", cfg.table, resD.error); huboError = true; }
       }
     } catch (e) {
       console.warn("[cloud] sync (excepcion)", cfg.table, e);
+      huboError = true;
     }
+    __syncEnd(!huboError, huboError ? "No se pudo guardar un cambio en la nube." : null);
   };
 
   // ---- config: una sola fila (id=1), todo el objeto vive en la columna jsonb "data" ----
@@ -179,12 +218,16 @@
     }
   };
   window.__cloudSyncConfig = async function (next) {
+    __syncBegin();
+    var huboError = false;
     try {
       var res = await sb.from("config").update({ data: next }).eq("id", 1);
-      if (res.error) console.warn("[cloud] sync config", res.error);
+      if (res.error) { console.warn("[cloud] sync config", res.error); huboError = true; }
     } catch (e) {
       console.warn("[cloud] sync config (excepcion)", e);
+      huboError = true;
     }
+    __syncEnd(!huboError, huboError ? "No se pudo guardar la configuracion en la nube." : null);
   };
 
   // ---- usuarios: viven en Supabase Auth + tabla perfiles, no en una tabla propia ----
@@ -294,18 +337,66 @@
   };
 
   window.__cloudSyncCitaEstado = async function (citaId, nuevoEstado, fecha) {
+    __syncBegin();
+    var huboError = false;
     try {
       var res = await sb.from("citas").select("*").eq("id", citaId).single();
-      if (res.error || !res.data) return;
-      var cita = rowFromDb(res.data);
-      if (cita.estado === nuevoEstado) return;
-      var historial = (cita.historialEstados || []).concat([{ estado: nuevoEstado, fecha: fecha }]);
-      var upd = await sb.from("citas").update({ estado: nuevoEstado, historial_estados: historial }).eq("id", citaId);
-      if (upd.error) console.warn("[cloud] sync cita estado", upd.error);
+      if (res.error || !res.data) { huboError = true; }
+      else {
+        var cita = rowFromDb(res.data);
+        if (cita.estado !== nuevoEstado) {
+          var historial = (cita.historialEstados || []).concat([{ estado: nuevoEstado, fecha: fecha }]);
+          var upd = await sb.from("citas").update({ estado: nuevoEstado, historial_estados: historial }).eq("id", citaId);
+          if (upd.error) { console.warn("[cloud] sync cita estado", upd.error); huboError = true; }
+        }
+      }
     } catch (e) {
       console.warn("[cloud] sync cita estado (excepcion)", e);
+      huboError = true;
     }
+    __syncEnd(!huboError, huboError ? "No se pudo actualizar el estado de una cita en la nube." : null);
   };
+
+  // ---- aviso visible (independiente de React) + freno al cierre accidental ----
+  // Se muestra solo, no requiere tocar el bundle principal de la app.
+  function __montarAvisoSync() {
+    var box = document.createElement("div");
+    box.id = "__yll_sync_banner";
+    box.style.cssText = [
+      "position:fixed", "left:50%", "bottom:18px", "transform:translateX(-50%)",
+      "z-index:999999", "max-width:92vw", "padding:10px 18px", "border-radius:10px",
+      "font:600 13px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif",
+      "box-shadow:0 4px 16px rgba(0,0,0,.28)", "display:none", "text-align:center", "color:#fff",
+    ].join(";");
+    document.body.appendChild(box);
+    window.addEventListener("yolo-cloud-sync", function (ev) {
+      var d = (ev && ev.detail) || {};
+      if (d.error) {
+        box.style.background = "#c0392b";
+        box.textContent = "⚠ " + d.error + " No cierres esta pantalla todavia.";
+        box.style.display = "block";
+      } else if (d.pending > 0) {
+        box.style.background = "#2c3e50";
+        box.textContent = "☁ Guardando cambios en la nube... no cierres esta pantalla.";
+        box.style.display = "block";
+      } else {
+        box.style.display = "none";
+      }
+    });
+  }
+  if (document.body) __montarAvisoSync();
+  else document.addEventListener("DOMContentLoaded", __montarAvisoSync);
+
+  window.addEventListener("beforeunload", function (e) {
+    // Avisar tanto si hay un guardado en curso como si el ultimo guardado
+    // quedo con error sin resolver -- en ambos casos hay un cambio que
+    // todavia no llego a la nube.
+    if (__syncPending > 0 || __syncLastError) {
+      e.preventDefault();
+      e.returnValue = "";
+      return "";
+    }
+  });
 })();
 
 </script>
