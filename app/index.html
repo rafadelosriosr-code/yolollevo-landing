@@ -1176,13 +1176,11 @@ Respondé en español, conciso y orientado al negocio.`,S=["¿Cuál es el result
   const historialDe=N=>{
     const pat=norm(N.patente);
     const items=[];
-    if(pat){
-      s.forEach(O=>{
-        if((norm(O.patente)===pat||O.vehiculoId===N.id)&&(O.estado==="Completada"||O.estado==="Entregado")){
-          items.push({tipo:"Orden de trabajo",fecha:O.fecha,detalle:(O.servicios||[]).join(", ")||O.descripcionTrabajo||"Orden de trabajo",km:O.kmActual,estado:O.estado,costo:O.total,key:"o"+O.id});
-        }
-      });
-    }
+    s.forEach(O=>{
+      if(((pat&&norm(O.patente)===pat)||O.vehiculoId===N.id)&&(O.estado==="Completada"||O.estado==="Entregado")){
+        items.push({tipo:"Orden de trabajo",fecha:O.fecha,detalle:(O.servicios||[]).join(", ")||O.descripcionTrabajo||"Orden de trabajo",km:O.kmActual,estado:O.estado,costo:O.total,key:"o"+O.id});
+      }
+    });
     (N.historialManual||[]).forEach(O=>items.push({tipo:"Registro externo",fecha:O.fecha,detalle:O.descripcion,km:O.km,lugar:O.lugar,costo:O.costo,notas:O.notas,manual:!0,manualId:O.id,key:"m"+O.id}));
     return items.sort((O,P)=>new Date(P.fecha)-new Date(O.fecha));
   };
