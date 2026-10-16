@@ -1031,7 +1031,7 @@ Para aceptar el presupuesto o consultas, contactanos al ${K.telefono||""}. ¡Gra
   <!-- SERVICIOS REALIZADOS -->
   <div class="servicios section" style="margin-bottom:18px;">
     <div class="section-title">🔧 Servicios realizados en este service</div>
-    ${(e.servicios&&e.servicios.length?e.servicios.map(p=>'<div class="svc-item"><div class="svc-dot"></div><span>'+p+"</span></div>"):e.descripcionTrabajo?['<div class="svc-item"><div class="svc-dot"></div><span>'+e.descripcionTrabajo+"</span></div>"]:[]).join("")}
+    ${[...(e.servicios&&e.servicios.length?e.servicios.map(p=>'<div class="svc-item"><div class="svc-dot"></div><span>'+p+"</span></div>"):[]),...(e.descripcionTrabajo&&(!e.servicios||!e.servicios.length||e.modoTrabajo==="aliado")?['<div class="svc-item"><div class="svc-dot"></div><span>'+e.descripcionTrabajo+"</span></div>"]:[])].join("")}
   </div>
 
   <!-- OBSERVACIONES -->
